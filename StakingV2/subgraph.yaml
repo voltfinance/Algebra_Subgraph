@@ -1,6 +1,5 @@
 specVersion: 0.0.2
-description: Indexing all Polygon Block data
-repository: https://github.com/blocklytics/ethereum-blocks
+description: Indexing ALGB stakingV2 data
 schema:
   file: ./schema.graphql
 dataSources:
@@ -8,9 +7,9 @@ dataSources:
     name: Staker
     network: matic
     source:
-      address: "0xF96200cA46b8e7DA3C9D4dE8E960341A9a013FDa"
+      address: "0x45D6100C2cAd41af1c5585d9cD3cee2B1b606EE9"
       abi: Staker
-      startBlock: 33308309 
+      startBlock: 33874625 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5

@@ -24,7 +24,7 @@ export function EnterHandler(event: Enter): void{
         factory.rewardsAdded = ZERO_BI;
         factory.stakesCount = ONE_BI;
         factory.migrationsCount = ZERO_BI;
-        factory.sumOfMultipliers = ZERO_BI;
+        factory.sumOfMultipliers = BigDecimal.fromString("0");
     }
     // update stake entity
     let stake = new Stake(event.params.tokenId.toString());
@@ -63,17 +63,19 @@ export function UnstakeHandler(event: Unstake): void{
     
     
     let stake = Stake.load(event.params.tokenId.toString()) 
-    stake!.stakedALGBAmount = ZERO_BI;
+    if(stake) stake.stakedALGBAmount = ZERO_BI;
     factory!.sumOfMultipliers -= stake!.multiplier;
 
     const day = (event.block.timestamp.toI32() / 86400).toString();
     let history = History.load(day);
     if(history){
         history.stakedAmount = factory!.currentStakedAmount;
+        history.date = event.block.timestamp;
         history.stakesCount = factory!.stakesCount;
     }
     else{
         history = new History(day);
+        history.date = event.block.timestamp;
         history.dayStakedAmount = ZERO_BI;
         history.stakedAmount = factory!.currentStakedAmount;
         history.dayRewardsAdded = ZERO_BI;
@@ -100,7 +102,7 @@ export function MigrateHandler(event: Migrate): void{
         factory.rewardsAdded = ZERO_BI;
         factory.stakesCount = ONE_BI;
         factory.migrationsCount = ONE_BI;
-        factory.sumOfMultipliers = ZERO_BI;
+        factory.sumOfMultipliers = BigDecimal.fromString("0");
     }
     // update stake entity
     let stake = new Stake(event.params.tokenId.toString());
@@ -115,6 +117,7 @@ export function MigrateHandler(event: Migrate): void{
     let history = History.load(day);
     if(history){
         history.dayStakedAmount += event.params.amount;
+        history.date = event.block.timestamp;
         history.stakedAmount = factory.currentStakedAmount;
         history.stakesCount = factory.stakesCount;
         history.dayStakesCount += ONE_BI;
@@ -122,6 +125,7 @@ export function MigrateHandler(event: Migrate): void{
     else{
         history = new History(day);
         history.dayStakedAmount = event.params.amount;
+        history.date = event.block.timestamp;
         history.stakedAmount = factory.currentStakedAmount;
         history.dayRewardsAdded = ZERO_BI;
         history.rewardsAdded = factory.rewardsAdded;
@@ -135,24 +139,36 @@ export function MigrateHandler(event: Migrate): void{
 
 export function AddRewardsHandler(event: AddRewards): void{
     let factory = Factory.load(event.address.toHexString());
-    factory!.rewardsAdded += event.params.amount; 
+    if (factory){
+        factory.rewardsAdded += event.params.amount;
+    }
+    else{
+        factory = new Factory(event.address.toHexString());
+        factory.currentStakedAmount = ZERO_BI;
+        factory.rewardsAdded = event.params.amount;
+        factory.stakesCount = ZERO_BI;
+        factory.migrationsCount = ZERO_BI;
+        factory.sumOfMultipliers = BigDecimal.fromString("0");
+    }
     const day = (event.block.timestamp.toI32() / 86400).toString();
     let history = History.load(day);
     if(history){
-        history.rewardsAdded = factory!.rewardsAdded;
+        history.date = event.block.timestamp;
+        history.rewardsAdded = factory.rewardsAdded;
         history.dayRewardsAdded += event.params.amount;
     }
     else{
         history = new History(day);
+        history.date = event.block.timestamp;
         history.dayStakedAmount = ZERO_BI;
-        history.stakedAmount = factory!.currentStakedAmount;
+        history.stakedAmount = factory.currentStakedAmount;
         history.dayRewardsAdded = ONE_BI;
-        history.rewardsAdded = factory!.rewardsAdded;
+        history.rewardsAdded = factory.rewardsAdded;
         history.dayStakesCount = ZERO_BI;
-        history.stakesCount = factory!.stakesCount;
+        history.stakesCount = factory.stakesCount;
     }
     history.save();
-    factory!.save(); 
+    factory.save(); 
 } 
 
 export function ClaimHandler(event: Claim): void{
@@ -166,23 +182,26 @@ export function ClaimHandler(event: Claim): void{
     stake!.save();
 }
 
-function getMultiplier(lockTime: BigInt): BigInt{
+function getMultiplier(lockTime: BigInt): BigDecimal{
 
     switch(lockTime.toU32()){
         case 120: {
-            return ONE_BI;
+            return BigDecimal.fromString("1");
         }
         case 300: {
-            return BigInt.fromI32(3);
+            return BigDecimal.fromString("1.2");
         }
         case 420: {
-            return BigInt.fromI32(6);
+            return BigDecimal.fromString("1.5");
+        }
+        case 500: {
+            return BigDecimal.fromString("2");
         }
         case 600: {
-            return BigInt.fromI32(12);
+            return BigDecimal.fromString("2.5");
         }
         default:{
-            return ZERO_BI;
+            return BigDecimal.fromString("0");
         }
     }
 } 

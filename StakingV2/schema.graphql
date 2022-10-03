@@ -5,7 +5,7 @@ type Factory @entity{
   stakesCount: BigInt!
   rewardsCollected: BigInt!
   migrationsCount: BigInt!
-  sumOfMultipliers: BigInt! 
+  sumOfMultipliers: BigDecimal! 
 }
 
 type Stake @entity{
@@ -14,11 +14,12 @@ type Stake @entity{
   lockPeriod: BigInt!
   lockStartTime: BigInt!
   rewardsCollected: BigInt!
-  multiplier: BigInt!
+  multiplier: BigDecimal!
 }
 
 type History @entity{
   id: ID!
+  date: BigInt!
   dayStakedAmount: BigInt!
   stakedAmount: BigInt!
   dayRewardsAdded: BigInt!
