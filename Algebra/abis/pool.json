@@ -290,6 +290,19 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "int24",
+        "name": "newTickSpacing",
+        "type": "int24"
+      }
+    ],
+    "name": "TickSpacing",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "activeIncentive",
     "outputs": [

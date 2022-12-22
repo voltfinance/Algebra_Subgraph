@@ -1,6 +1,6 @@
 /* eslint-disable prefer-const */
 import { Bundle, Burn, Factory, Mint, Pool, Swap, Tick, Token,PoolFeeData } from '../types/schema'
-import { Pool as PoolABI } from '../types/Factory/Pool'
+import { Pool as PoolABI} from '../types/Factory/Pool'
 import { BigDecimal, BigInt, ethereum, log} from '@graphprotocol/graph-ts'
 
 import {
@@ -10,10 +10,11 @@ import {
   Fee as ChangeFee,
   Mint as MintEvent,
   Swap as SwapEvent,
-  CommunityFee
+  CommunityFee,
+  TickSpacing
 } from '../types/templates/Pool/Pool'
 import { convertTokenToDecimal, loadTransaction, safeDiv } from '../utils'
-import { FACTORY_ADDRESS, ONE_BI, ZERO_BD, ZERO_BI, pools_list, TICK_SPACING } from '../utils/constants'
+import { FACTORY_ADDRESS, ONE_BI, ZERO_BD, ZERO_BI, pools_list} from '../utils/constants'
 import { findEthPerToken, getEthPriceInUSD, getTrackedAmountUSD, priceToTokenPrices } from '../utils/pricing'
 import {
   updatePoolDayData,
@@ -531,7 +532,7 @@ export function handleSwap(event: SwapEvent): void {
   
   // Update inner vars of current or crossed ticks
   let newTick = pool.tick
-  let modulo = newTick.mod(TICK_SPACING)
+  let modulo = newTick.mod(pool.tickSpacing)
   if (modulo.equals(ZERO_BI)) {
     // Current tick is initialized and needs to be updated
     loadTickUpdateFeeVarsAndSave(newTick.toI32(), event)
@@ -540,7 +541,7 @@ export function handleSwap(event: SwapEvent): void {
   let numIters = oldTick
     .minus(newTick)
     .abs()
-    .div(TICK_SPACING)
+    .div(pool.tickSpacing)
 
   if (numIters.gt(BigInt.fromI32(100))) {
     // In case more than 100 ticks need to be updated ignore the update in
@@ -549,13 +550,13 @@ export function handleSwap(event: SwapEvent): void {
     // updated later. For early users this error also disappears when calling
     // collect
   } else if (newTick.gt(oldTick)) {
-    let firstInitialized = oldTick.plus(TICK_SPACING.minus(modulo))
-    for (let i = firstInitialized; i.le(newTick); i = i.plus(TICK_SPACING)) {
+    let firstInitialized = oldTick.plus(pool.tickSpacing.minus(modulo))
+    for (let i = firstInitialized; i.le(newTick); i = i.plus(pool.tickSpacing)) {
       loadTickUpdateFeeVarsAndSave(i.toI32(), event)
     }
   } else if (newTick.lt(oldTick)) {
     let firstInitialized = oldTick.minus(modulo)
-    for (let i = firstInitialized; i.ge(newTick); i = i.minus(TICK_SPACING)) {
+    for (let i = firstInitialized; i.ge(newTick); i = i.minus(pool.tickSpacing)) {
       loadTickUpdateFeeVarsAndSave(i.toI32(), event)
     }
   }
@@ -652,6 +653,12 @@ function updateTickFeeVarsAndSave(tick: Tick, event: ethereum.Event): void {
   tick.feeGrowthOutside1X128 = tickResult.value3
   tick.save()
   updateTickDayData(tick, event)
+}
+
+export function handleSetTickSpacing(event: TickSpacing): void {
+  let pool = Pool.load(event.address.toHexString())!
+  pool.tickSpacing = BigInt.fromI32(event.params.newTickSpacing as i32)
+  pool.save
 }
 
 export function handleChangeFee(event: ChangeFee): void {

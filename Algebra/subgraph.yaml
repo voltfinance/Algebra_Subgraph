@@ -5,11 +5,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: matic
+    network: chapel
     source:
-      address: '0x9742E5C4452ccA62ce115d302756e9150CbA36Aa'
+      address: '0x41931d519D6C0AF8e334C6A536298C2e878cC39c'
       abi: Factory
-      startBlock: 31656556 
+      startBlock: 25673300 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -36,11 +36,11 @@ dataSources:
           handler: handleNewCommunityFee
   - kind: ethereum/contract
     name: NonfungiblePositionManager
-    network: matic
+    network: chapel
     source:
-      address: '0x5c43b3C6d5b7dF8A672db8DD66d0b5D74BAf099F'
+      address: '0x5f26923b5f628aeCB8EA2b22D85A78E7c59917C4'
       abi: NonfungiblePositionManager
-      startBlock: 31656556 
+      startBlock: 25673300 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -71,7 +71,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pool
-    network: matic
+    network: chapel
     source:
       abi: Pool
     mapping:
@@ -104,3 +104,5 @@ templates:
           handler: handleCollect
         - event: CommunityFee(uint8)
           handler: handleSetCommunityFee
+        - event: TickSpacing(int24)
+          handler: handleSetTickSpacing

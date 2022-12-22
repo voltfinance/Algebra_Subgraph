@@ -84,6 +84,8 @@ type Pool @entity {
   token0: Token!
   # token1
   token1: Token!
+  # tick spacing
+  tickSpacing: BigInt!
   # fee amount
   fee: BigInt!
   communityFee: BigInt!
