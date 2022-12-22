@@ -459,14 +459,14 @@
         "type": "tuple"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "rewardAmount",
-        "type": "uint256"
+        "type": "uint128"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "bonusRewardAmount",
-        "type": "uint256"
+        "type": "uint128"
       }
     ],
     "name": "addRewards",
@@ -675,14 +675,14 @@
       {
         "components": [
           {
-            "internalType": "uint256",
+            "internalType": "uint128",
             "name": "reward",
-            "type": "uint256"
+            "type": "uint128"
           },
           {
-            "internalType": "uint256",
+            "internalType": "uint128",
             "name": "bonusReward",
-            "type": "uint256"
+            "type": "uint128"
           },
           {
             "internalType": "uint128",
@@ -1035,14 +1035,14 @@
     "name": "incentives",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "totalReward",
-        "type": "uint256"
+        "type": "uint128"
       },
       {
-        "internalType": "uint256",
+        "internalType": "uint128",
         "name": "bonusReward",
-        "type": "uint256"
+        "type": "uint128"
       },
       {
         "internalType": "address",

@@ -1,5 +1,4 @@
 import { ethereum, crypto, BigInt} from '@graphprotocol/graph-ts';
-import { FarmEntered } from '../types/EternalFarming/EternalFarming';
 import {
   LimitFarmingCreated,
   FarmEntered,

@@ -104,8 +104,8 @@ dataSources:
         - name: ERC20NameBytes
           file: ./abis/ERC20NameBytes.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleTransfer
+        - event: Lock(indexed uint256,bool)
+          handler: handleLock
 - kind: ethereum/contract
   name: LimitFarming
   network: matic

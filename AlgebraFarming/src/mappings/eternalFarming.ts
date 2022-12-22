@@ -10,7 +10,6 @@ import {
   RewardsAdded,
   RewardsCollected
 } from '../types/EternalFarming/EternalFarming';
-import { FarmEntered } from '../types/LimitFarming/LimitFarming';
 import { Deposit, Reward, EternalFarming } from '../types/schema';
 import { createTokenEntity } from '../utils/token'
 
