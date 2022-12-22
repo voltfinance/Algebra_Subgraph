@@ -315,7 +315,7 @@ export function handleSwap(event: SwapEvent): void {
    amount0Abs = amount0.times(BigDecimal.fromString('-1'))
  }
  else { 
-   let communityFeeAmount = amount0.times(BigDecimal.fromString((pool.fee.times(pool.communityFee0).toString())).div(BigDecimal.fromString('1000000000')))
+   let communityFeeAmount = amount0.times(BigDecimal.fromString((pool.fee.times(pool.communityFee).toString())).div(BigDecimal.fromString('1000000000')))
    communityFeeAmount = communityFeeAmount.times(BigDecimal.fromString("1")) 
    amount0 = amount0.minus(communityFeeAmount)
    amount0Abs = amount0
@@ -326,7 +326,7 @@ export function handleSwap(event: SwapEvent): void {
    amount1Abs = amount1.times(BigDecimal.fromString('-1'))
  }
  else{
-   let communityFeeAmount = amount1.times(BigDecimal.fromString((pool.fee.times(pool.communityFee1).toString())).div(BigDecimal.fromString('1000000000')))
+   let communityFeeAmount = amount1.times(BigDecimal.fromString((pool.fee.times(pool.communityFee).toString())).div(BigDecimal.fromString('1000000000')))
    communityFeeAmount = communityFeeAmount.times(BigDecimal.fromString("1"))  
    amount1 = amount1.minus(communityFeeAmount)
    amount1Abs = amount1
@@ -564,8 +564,7 @@ export function handleSwap(event: SwapEvent): void {
 export function handleSetCommunityFee(event: CommunityFee): void {
   let pool = Pool.load(event.address.toHexString())
   if (pool){
-    pool.communityFee0 = BigInt.fromI32(event.params.communityFee0New)
-    pool.communityFee1 = BigInt.fromI32(event.params.communityFee1New)
+    pool.communityFee = BigInt.fromI32(event.params.communityFeeNew)
     pool.save() 
   }
 

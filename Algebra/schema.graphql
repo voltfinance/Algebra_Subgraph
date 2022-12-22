@@ -25,6 +25,8 @@ type Factory @entity {
   totalValueLockedMaticUntracked: BigDecimal!
   # current owner of the factory
   owner: ID!
+  # default communityFee values
+  communityFee: BigInt!
 }
 
 # stores for USD calculations
@@ -84,8 +86,7 @@ type Pool @entity {
   token1: Token!
   # fee amount
   fee: BigInt!
-  communityFee0: BigInt!
-  communityFee1: BigInt!
+  communityFee: BigInt!
   # in range liquidity
   liquidity: BigInt!
   # current price tracker

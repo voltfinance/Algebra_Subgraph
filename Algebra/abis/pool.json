@@ -96,13 +96,7 @@
       {
         "indexed": false,
         "internalType": "uint8",
-        "name": "communityFee0New",
-        "type": "uint8"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint8",
-        "name": "communityFee1New",
+        "name": "communityFeeNew",
         "type": "uint8"
       }
     ],
@@ -195,19 +189,6 @@
       }
     ],
     "name": "Initialize",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "liquidityCooldown",
-        "type": "uint32"
-      }
-    ],
-    "name": "LiquidityCooldown",
     "type": "event"
   },
   {
@@ -469,11 +450,6 @@
     "name": "getInnerCumulatives",
     "outputs": [
       {
-        "internalType": "int56",
-        "name": "innerTickCumulative",
-        "type": "int56"
-      },
-      {
         "internalType": "uint160",
         "name": "innerSecondsSpentPerLiquidity",
         "type": "uint160"
@@ -482,40 +458,6 @@
         "internalType": "uint32",
         "name": "innerSecondsSpent",
         "type": "uint32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint32[]",
-        "name": "secondsAgos",
-        "type": "uint32[]"
-      }
-    ],
-    "name": "getTimepoints",
-    "outputs": [
-      {
-        "internalType": "int56[]",
-        "name": "tickCumulatives",
-        "type": "int56[]"
-      },
-      {
-        "internalType": "uint160[]",
-        "name": "secondsPerLiquidityCumulatives",
-        "type": "uint160[]"
-      },
-      {
-        "internalType": "uint112[]",
-        "name": "volatilityCumulatives",
-        "type": "uint112[]"
-      },
-      {
-        "internalType": "uint256[]",
-        "name": "volumePerAvgLiquiditys",
-        "type": "uint256[]"
       }
     ],
     "stateMutability": "view",
@@ -536,6 +478,11 @@
         "type": "int24"
       },
       {
+        "internalType": "int24",
+        "name": "prevInitializedTick",
+        "type": "int24"
+      },
+      {
         "internalType": "uint16",
         "name": "fee",
         "type": "uint16"
@@ -546,18 +493,8 @@
         "type": "uint16"
       },
       {
-        "internalType": "uint16",
-        "name": "timepointIndexSwap",
-        "type": "uint16"
-      },
-      {
         "internalType": "uint8",
-        "name": "communityFeeToken0",
-        "type": "uint8"
-      },
-      {
-        "internalType": "uint8",
-        "name": "communityFeeToken1",
+        "name": "communityFee",
         "type": "uint8"
       },
       {
@@ -590,19 +527,6 @@
         "internalType": "uint128",
         "name": "",
         "type": "uint128"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "liquidityCooldown",
-    "outputs": [
-      {
-        "internalType": "uint32",
-        "name": "",
-        "type": "uint32"
       }
     ],
     "stateMutability": "view",
@@ -691,11 +615,6 @@
         "type": "uint128"
       },
       {
-        "internalType": "uint32",
-        "name": "lastLiquidityAddTimestamp",
-        "type": "uint32"
-      },
-      {
         "internalType": "uint256",
         "name": "innerFeeGrowth0Token",
         "type": "uint256"
@@ -720,15 +639,36 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "reserve0",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "reserve1",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint8",
-        "name": "communityFee0",
-        "type": "uint8"
-      },
-      {
-        "internalType": "uint8",
-        "name": "communityFee1",
+        "name": "communityFee",
         "type": "uint8"
       }
     ],
@@ -753,12 +693,12 @@
   {
     "inputs": [
       {
-        "internalType": "uint32",
-        "name": "newLiquidityCooldown",
-        "type": "uint32"
+        "internalType": "int24",
+        "name": "newTickSpacing",
+        "type": "int24"
       }
     ],
-    "name": "setLiquidityCooldown",
+    "name": "setTickSpacing",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -866,7 +806,7 @@
         "type": "int24"
       }
     ],
-    "stateMutability": "pure",
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -919,9 +859,14 @@
         "type": "uint256"
       },
       {
-        "internalType": "int56",
-        "name": "outerTickCumulative",
-        "type": "int56"
+        "internalType": "int24",
+        "name": "prevTick",
+        "type": "int24"
+      },
+      {
+        "internalType": "int24",
+        "name": "nextTick",
+        "type": "int24"
       },
       {
         "internalType": "uint160",
@@ -937,55 +882,6 @@
         "internalType": "bool",
         "name": "initialized",
         "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "index",
-        "type": "uint256"
-      }
-    ],
-    "name": "timepoints",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "initialized",
-        "type": "bool"
-      },
-      {
-        "internalType": "uint32",
-        "name": "blockTimestamp",
-        "type": "uint32"
-      },
-      {
-        "internalType": "int56",
-        "name": "tickCumulative",
-        "type": "int56"
-      },
-      {
-        "internalType": "uint160",
-        "name": "secondsPerLiquidityCumulative",
-        "type": "uint160"
-      },
-      {
-        "internalType": "uint88",
-        "name": "volatilityCumulative",
-        "type": "uint88"
-      },
-      {
-        "internalType": "int24",
-        "name": "averageTick",
-        "type": "int24"
-      },
-      {
-        "internalType": "uint144",
-        "name": "volumePerLiquidityCumulative",
-        "type": "uint144"
       }
     ],
     "stateMutability": "view",

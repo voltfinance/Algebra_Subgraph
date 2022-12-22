@@ -19,6 +19,19 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint8",
+        "name": "newDefaultCommunityFee",
+        "type": "uint8"
+      }
+    ],
+    "name": "DefaultCommunityFee",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "address",
         "name": "newFarmingAddress",
@@ -65,18 +78,6 @@
         "indexed": false,
         "internalType": "uint16",
         "name": "gamma2",
-        "type": "uint16"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "volumeBeta",
-        "type": "uint32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint16",
-        "name": "volumeGamma",
         "type": "uint16"
       },
       {
@@ -142,6 +143,13 @@
   },
   {
     "inputs": [],
+    "name": "acceptOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "baseFeeConfiguration",
     "outputs": [
       {
@@ -175,16 +183,6 @@
         "type": "uint16"
       },
       {
-        "internalType": "uint32",
-        "name": "volumeBeta",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint16",
-        "name": "volumeGamma",
-        "type": "uint16"
-      },
-      {
         "internalType": "uint16",
         "name": "baseFee",
         "type": "uint16"
@@ -215,6 +213,19 @@
       }
     ],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "defaultCommunityFee",
+    "outputs": [
+      {
+        "internalType": "uint8",
+        "name": "",
+        "type": "uint8"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -281,6 +292,13 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint16",
@@ -313,22 +331,25 @@
         "type": "uint16"
       },
       {
-        "internalType": "uint32",
-        "name": "volumeBeta",
-        "type": "uint32"
-      },
-      {
-        "internalType": "uint16",
-        "name": "volumeGamma",
-        "type": "uint16"
-      },
-      {
         "internalType": "uint16",
         "name": "baseFee",
         "type": "uint16"
       }
     ],
     "name": "setBaseFeeConfiguration",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint8",
+        "name": "newDefaultCommunityFee",
+        "type": "uint8"
+      }
+    ],
+    "name": "setDefaultCommunityFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

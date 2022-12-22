@@ -2,7 +2,7 @@ import { WHITELIST_TOKENS } from './../utils/pricing'
 /* eslint-disable prefer-const */
 import { FACTORY_ADDRESS, ZERO_BI, ONE_BI, ZERO_BD, ADDRESS_ZERO, pools_list} from './../utils/constants'
 import { Factory } from '../types/schema'
-import { Pool as PoolEvent } from '../types/Factory/Factory'
+import { Pool as PoolEvent, DefaultCommunityFee } from '../types/Factory/Factory'
 import { Pool, Token, Bundle } from '../types/schema'
 import { Pool as PoolTemplate} from '../types/templates'
 import { fetchTokenSymbol, fetchTokenName, fetchTokenTotalSupply, fetchTokenDecimals } from '../utils/token'
@@ -128,8 +128,7 @@ export function handlePoolCreated(event: PoolEvent): void {
   pool.sqrtPrice = ZERO_BI
   pool.feeGrowthGlobal0X128 = ZERO_BI
   pool.feeGrowthGlobal1X128 = ZERO_BI
-  pool.communityFee0 = ZERO_BI
-  pool.communityFee1 = ZERO_BI
+  pool.communityFee = factory.communityFee
   pool.token0Price = ZERO_BD
   pool.token1Price = ZERO_BD
   pool.observationIndex = ZERO_BI
@@ -157,4 +156,10 @@ export function handlePoolCreated(event: PoolEvent): void {
   token1.save()
   factory.save()
 
+}
+
+export function handleNewCommunityFee(event: DefaultCommunityFee): void {
+  let factory = Factory.load(FACTORY_ADDRESS)
+  factory!.communityFee = BigInt.fromI32(event.params.newDefaultCommunityFee)
+  factory!.save()
 }

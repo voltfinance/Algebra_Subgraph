@@ -32,6 +32,8 @@ dataSources:
       eventHandlers:
         - event: Pool(indexed address,indexed address,address)
           handler: handlePoolCreated
+        - event: DefaultCommunityFee(uint8)
+          handler: handleNewCommunityFee
   - kind: ethereum/contract
     name: NonfungiblePositionManager
     network: matic
@@ -100,5 +102,5 @@ templates:
           handler: handleChangeFee
         - event: Collect(indexed address,address,indexed int24,indexed int24,uint128,uint128)
           handler: handleCollect
-        - event: CommunityFee(uint8,uint8)
+        - event: CommunityFee(uint8)
           handler: handleSetCommunityFee
