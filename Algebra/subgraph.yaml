@@ -5,11 +5,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: chapel
+    network: zkSync2-testnet
     source:
-      address: '0x41931d519D6C0AF8e334C6A536298C2e878cC39c'
+      address: '0x5A61Daf53FB2C4a2379D3998508bdbDf7Edf0F0c'
       abi: Factory
-      startBlock: 25673300 
+      startBlock: 3863973 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -36,11 +36,11 @@ dataSources:
           handler: handleNewCommunityFee
   - kind: ethereum/contract
     name: NonfungiblePositionManager
-    network: chapel
+    network: zkSync2-testnet
     source:
-      address: '0x5f26923b5f628aeCB8EA2b22D85A78E7c59917C4'
+      address: '0xA75EABdBe29a1A1a64Ff52A9BceCad34C919170D'
       abi: NonfungiblePositionManager
-      startBlock: 25673300 
+      startBlock: 3863973 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -71,7 +71,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pool
-    network: chapel
+    network: zkSync2-testnet
     source:
       abi: Pool
     mapping:
@@ -104,5 +104,5 @@ templates:
           handler: handleCollect
         - event: CommunityFee(uint8)
           handler: handleSetCommunityFee
-        - event: TickSpacing(int24)
+        - event: TickSpacing(int24,int24)
           handler: handleSetTickSpacing
