@@ -1,46 +1,16 @@
-type LimitFarming @entity {
-  id: ID!
-  createdAtTimestamp: BigInt!
-  rewardToken: Bytes!
-  bonusRewardToken: Bytes!
-  pool: Bytes!
-  startTime: BigInt!
-  endTime: BigInt!
-  reward: BigInt!
-  bonusReward: BigInt!
-  isDetached: Boolean
-  minRangeLength: BigInt!
-  tokenAmountForTier1: BigInt!
-  tokenAmountForTier2: BigInt!
-  tokenAmountForTier3: BigInt!
-  tier1Multiplier: BigInt!
-  tier2Multiplier: BigInt!
-  tier3Multiplier: BigInt!
-  multiplierToken: Bytes!
-  enterStartTime: BigInt!
-}
-
 type EternalFarming @entity {
   id: ID!
   rewardToken: Bytes!
   bonusRewardToken: Bytes!
   virtualPool: Bytes!
   pool: Bytes!
-  startTime: BigInt!
-  endTime: BigInt!
+  nonce: BigInt!
   reward: BigInt!
   bonusReward: BigInt!
   rewardRate: BigInt!
   bonusRewardRate: BigInt!
-  isDetached: Boolean
+  isDeactivated: Boolean
   minRangeLength: BigInt!
-  tokenAmountForTier1: BigInt!
-  tokenAmountForTier2: BigInt!
-  tokenAmountForTier3: BigInt!
-  tier1Multiplier: BigInt!
-  tier2Multiplier: BigInt!
-  tier3Multiplier: BigInt!
-  multiplierToken: Bytes!
 }
 
 type Deposit @entity {
@@ -48,15 +18,9 @@ type Deposit @entity {
   owner: Bytes!
   locked: Boolean!
   pool: Bytes!
-  limitFarming: Bytes
-  eternalFarming: Bytes
-  enteredInEternalFarming: BigInt 
+  eternalFarming: Bytes 
   liquidity: BigInt!
   rangeLength: BigInt!
-  tokensLockedLimit: BigInt!
-  tokensLockedEternal: BigInt!
-  tierLimit: BigInt!
-  tierEternal: BigInt! 
 }
 
 type Reward @entity{

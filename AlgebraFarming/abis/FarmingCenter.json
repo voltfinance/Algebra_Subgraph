@@ -2,11 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "contract IAlgebraLimitFarming",
-        "name": "_limitFarming",
-        "type": "address"
-      },
-      {
         "internalType": "contract IAlgebraEternalFarming",
         "name": "_eternalFarming",
         "type": "address"
@@ -15,46 +10,46 @@
         "internalType": "contract INonfungiblePositionManager",
         "name": "_nonfungiblePositionManager",
         "type": "address"
-      },
-      {
-        "internalType": "contract IFarmingCenterVault",
-        "name": "_farmingCenterVault",
-        "type": "address"
       }
     ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
   {
-    "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
       },
       {
-        "indexed": false,
+        "internalType": "int256",
+        "name": "liquidityDelta",
+        "type": "int256"
+      }
+    ],
+    "name": "applyLiquidityDelta",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
+      }
+    ],
+    "name": "burnPosition",
+    "outputs": [
+      {
         "internalType": "bool",
-        "name": "lock",
+        "name": "success",
         "type": "bool"
       }
     ],
-    "name": "Lock",
-    "type": "event"
-  },
-  {
-    "inputs": [],
-    "name": "WNativeToken",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -71,12 +66,7 @@
       },
       {
         "internalType": "uint256",
-        "name": "amountRequestedIncentive",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amountRequestedEternal",
+        "name": "amountRequested",
         "type": "uint256"
       }
     ],
@@ -112,16 +102,11 @@
           },
           {
             "internalType": "uint256",
-            "name": "startTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "endTime",
+            "name": "nonce",
             "type": "uint256"
           }
         ],
-        "internalType": "struct IIncentiveKey.IncentiveKey",
+        "internalType": "struct IncentiveKey",
         "name": "key",
         "type": "tuple"
       },
@@ -168,21 +153,21 @@
   {
     "inputs": [
       {
-        "internalType": "int24",
-        "name": "nextTick",
-        "type": "int24"
+        "internalType": "uint256",
+        "name": "tokenId",
+        "type": "uint256"
       },
       {
-        "internalType": "bool",
-        "name": "zeroToOne",
-        "type": "bool"
+        "internalType": "uint256",
+        "name": "liquidityDelta",
+        "type": "uint256"
       }
     ],
-    "name": "cross",
+    "name": "decreaseLiquidity",
     "outputs": [
       {
         "internalType": "bool",
-        "name": "",
+        "name": "success",
         "type": "bool"
       }
     ],
@@ -200,14 +185,9 @@
     "name": "deposits",
     "outputs": [
       {
-        "internalType": "uint32",
-        "name": "numberOfFarms",
-        "type": "uint32"
-      },
-      {
-        "internalType": "bool",
-        "name": "inLimitFarming",
-        "type": "bool"
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
     "stateMutability": "view",
@@ -234,16 +214,11 @@
           },
           {
             "internalType": "uint256",
-            "name": "startTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "endTime",
+            "name": "nonce",
             "type": "uint256"
           }
         ],
-        "internalType": "struct IIncentiveKey.IncentiveKey",
+        "internalType": "struct IncentiveKey",
         "name": "key",
         "type": "tuple"
       },
@@ -251,16 +226,6 @@
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "tokensLocked",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "isLimit",
-        "type": "bool"
       }
     ],
     "name": "enterFarming",
@@ -302,16 +267,11 @@
           },
           {
             "internalType": "uint256",
-            "name": "startTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "endTime",
+            "name": "nonce",
             "type": "uint256"
           }
         ],
-        "internalType": "struct IIncentiveKey.IncentiveKey",
+        "internalType": "struct IncentiveKey",
         "name": "key",
         "type": "tuple"
       },
@@ -319,11 +279,6 @@
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
-      },
-      {
-        "internalType": "bool",
-        "name": "isLimit",
-        "type": "bool"
       }
     ],
     "name": "exitFarming",
@@ -332,103 +287,34 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "farmingCenterVault",
-    "outputs": [
-      {
-        "internalType": "contract IFarmingCenterVault",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "contract IERC20Minimal",
-            "name": "rewardToken",
-            "type": "address"
-          },
-          {
-            "internalType": "contract IERC20Minimal",
-            "name": "bonusRewardToken",
-            "type": "address"
-          },
-          {
-            "internalType": "contract IAlgebraPool",
-            "name": "pool",
-            "type": "address"
-          },
-          {
-            "internalType": "uint256",
-            "name": "startTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "endTime",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct IIncentiveKey.IncentiveKey",
-        "name": "key",
-        "type": "tuple"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "tokenId",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount0Desired",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount1Desired",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount0Min",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "amount1Min",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "deadline",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct INonfungiblePositionManager.IncreaseLiquidityParams",
-        "name": "params",
-        "type": "tuple"
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
       }
     ],
-    "name": "increaseLiquidity",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "limitFarming",
+    "name": "incentiveKeys",
     "outputs": [
       {
-        "internalType": "contract IAlgebraLimitFarming",
-        "name": "",
+        "internalType": "contract IERC20Minimal",
+        "name": "rewardToken",
         "type": "address"
+      },
+      {
+        "internalType": "contract IERC20Minimal",
+        "name": "bonusRewardToken",
+        "type": "address"
+      },
+      {
+        "internalType": "contract IAlgebraPool",
+        "name": "pool",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "nonce",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",
@@ -440,9 +326,14 @@
         "internalType": "uint256",
         "name": "tokenId",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "liquidityDelta",
+        "type": "uint256"
       }
     ],
-    "name": "lockToken",
+    "name": "increaseLiquidity",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -480,71 +371,10 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "refundNativeToken",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "address",
-        "name": "token",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "amountMinimum",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "recipient",
-        "type": "address"
-      }
-    ],
-    "name": "sweepToken",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "tokenId",
-        "type": "uint256"
-      }
-    ],
-    "name": "unlockToken",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "amountMinimum",
-        "type": "uint256"
-      },
-      {
-        "internalType": "address",
-        "name": "recipient",
-        "type": "address"
-      }
-    ],
-    "name": "unwrapWNativeToken",
-    "outputs": [],
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "pool",
+        "name": "",
         "type": "address"
       }
     ],
@@ -552,20 +382,11 @@
     "outputs": [
       {
         "internalType": "address",
-        "name": "limitVP",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "eternalVP",
+        "name": "",
         "type": "address"
       }
     ],
     "stateMutability": "view",
     "type": "function"
-  },
-  {
-    "stateMutability": "payable",
-    "type": "receive"
   }
 ]
