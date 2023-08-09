@@ -7,9 +7,9 @@ dataSources:
     name: Factory
     network: zkSync2-testnet
     source:
-      address: '0x5A61Daf53FB2C4a2379D3998508bdbDf7Edf0F0c'
+      address: '0x43c64cEF2910ff5aFF7c42ABF4a5478A2FE4A69e'
       abi: Factory
-      startBlock: 3863973 
+      startBlock: 10005420 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -32,15 +32,15 @@ dataSources:
       eventHandlers:
         - event: Pool(indexed address,indexed address,address)
           handler: handlePoolCreated
-        - event: DefaultCommunityFee(uint8)
+        - event: DefaultCommunityFee(uint16)
           handler: handleNewCommunityFee
   - kind: ethereum/contract
     name: NonfungiblePositionManager
     network: zkSync2-testnet
     source:
-      address: '0xA75EABdBe29a1A1a64Ff52A9BceCad34C919170D'
+      address: '0x0dc9D98C7A9f5291838fb83A60052AaebFd20A4d'
       abi: NonfungiblePositionManager
-      startBlock: 3863973 
+      startBlock: 10005420 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -102,7 +102,7 @@ templates:
           handler: handleChangeFee
         - event: Collect(indexed address,address,indexed int24,indexed int24,uint128,uint128)
           handler: handleCollect
-        - event: CommunityFee(uint8)
+        - event: CommunityFee(uint16)
           handler: handleSetCommunityFee
-        - event: TickSpacing(int24,int24)
+        - event: TickSpacing(int24)
           handler: handleSetTickSpacing
