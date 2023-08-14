@@ -7,7 +7,7 @@ dataSources:
   name: NonfungiblePositionManager
   network: zkSync2-testnet
   source:
-      address: '0xE06c13c37EdA6992207829B953334a0DBdE62A3D'
+      address: '0x0dc9D98C7A9f5291838fb83A60052AaebFd20A4d'
       abi: NonfungiblePositionManager
       startBlock: 10005420
   mapping:
@@ -38,7 +38,7 @@ dataSources:
   name: EternalFarming
   network: zkSync2-testnet
   source:
-      address: '0xf67B2238278a8b0458C51f247791c2741E7034C4'
+      address: '0x8D8bE1A2fAD3bD2472CF0f1C5282514A63D17e46'
       abi: EternalFarming
       startBlock: 10005420
   mapping:
