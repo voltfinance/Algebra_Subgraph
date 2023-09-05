@@ -16,7 +16,6 @@ type EternalFarming @entity {
 type Deposit @entity {
   id: ID!
   owner: Bytes!
-  locked: Boolean!
   pool: Bytes!
   eternalFarming: Bytes 
   liquidity: BigInt!

@@ -2,6 +2,7 @@ import { ethereum, crypto, BigInt } from '@graphprotocol/graph-ts';
 import {
   EternalFarmingCreated,
   FarmEntered,
+  RewardAmountsDecreased,
   FarmEnded,
   RewardClaimed,
   IncentiveDeactivated,
@@ -118,11 +119,9 @@ export function handleTokenUnstaked(event: FarmEnded): void {
 
 }
 
-export function handleDeactivated( event: IncentiveDeactivated): void{
+export function handleDeactivate( event: IncentiveDeactivated): void{
 
-  let incentiveId = event.params.incentiveId
-
-  let entity = EternalFarming.load(incentiveId.toHex());
+  let entity = EternalFarming.load(event.params.incentiveId.toHex());
 
   if(entity){
     entity.isDeactivated = true
@@ -146,6 +145,15 @@ export function handleRewardsAdded( event: RewardsAdded): void{
   if(eternalFarming){
     eternalFarming.reward += event.params.rewardAmount
     eternalFarming.bonusReward += event.params.bonusRewardAmount 
+    eternalFarming.save()
+  }
+}
+
+export function handleRewardDecreased( event: RewardAmountsDecreased): void{
+  let eternalFarming = EternalFarming.load(event.params.incentiveId.toHexString())
+  if(eternalFarming){
+    eternalFarming.reward -= event.params.rewardAmount
+    eternalFarming.bonusReward -= event.params.bonusRewardAmount 
     eternalFarming.save()
   }
 }
