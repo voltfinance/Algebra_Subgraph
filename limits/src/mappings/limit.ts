@@ -13,10 +13,11 @@ export function PlaceHandler(event: Place): void{
     if (epoch == null){
         epoch = new Epoch(event.params.epoch.toString());
         epoch.pool =  event.params.pool;
-        epoch.totalLiquidity += event.params.liquidity;
         epoch.filled = false;
     }
 
+
+    epoch.totalLiquidity += event.params.liquidity;
     epoch.save();
 
     let limit = LimitOrder.load(event.params.owner.toHexString() + "#" + event.params.epoch.toString())
@@ -26,11 +27,11 @@ export function PlaceHandler(event: Place): void{
         limit.pool = event.params.pool
         limit.tickLower = BigInt.fromI32(event.params.tickLower);
         limit.tickUpper = BigInt.fromI32(event.params.tickUpper);
-        limit.liquidity += event.params.liquidity;
         limit.zeroToOne = event.params.zeroForOne;
         limit.epoch = epoch.id;   
     }
 
+    limit.liquidity += event.params.liquidity;
     limit.save();
 
 }
