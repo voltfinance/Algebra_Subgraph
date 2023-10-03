@@ -5,11 +5,11 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: zkSync2-testnet
+    network: goerli
     source:
-      address: '0x43c64cEF2910ff5aFF7c42ABF4a5478A2FE4A69e'
+      address: '0x13fcE0acbe6Fb11641ab753212550574CaD31415'
       abi: Factory
-      startBlock: 10005420 
+      startBlock: 9705888 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -36,11 +36,11 @@ dataSources:
           handler: handleNewCommunityFee
   - kind: ethereum/contract
     name: NonfungiblePositionManager
-    network: zkSync2-testnet
+    network: goerli
     source:
-      address: '0x0dc9D98C7A9f5291838fb83A60052AaebFd20A4d'
+      address: '0xAbAc6f23fdf1313FC2E9C9244f666157CcD32990'
       abi: NonfungiblePositionManager
-      startBlock: 10005420 
+      startBlock: 9705888 
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -71,7 +71,7 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pool
-    network: zkSync2-testnet
+    network: goerli
     source:
       abi: Pool
     mapping:

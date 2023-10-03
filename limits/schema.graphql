@@ -1,0 +1,17 @@
+type Epoch @entity{
+  id: ID!
+  pool: Bytes!
+  filled: Boolean!
+  totalLiquidity: BigInt!
+}
+
+type LimitOrder @entity{
+  id: ID!
+  epoch: Epoch!
+  owner: Bytes!
+  pool: Bytes!
+  liquidity: BigInt!
+  tickLower: BigInt!
+  tickUpper: BigInt!
+  zeroToOne: Boolean!
+}
