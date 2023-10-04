@@ -59,7 +59,7 @@ export function KillHandler(event: Kill): void{
 
 }
 
-export function WithdrawHandler(event: Kill): void{
+export function WithdrawHandler(event: Withdraw): void{
     let epoch = Epoch.load(event.params.epoch.toString())
     if( epoch != null){
         epoch.totalLiquidity -= event.params.liquidity;
