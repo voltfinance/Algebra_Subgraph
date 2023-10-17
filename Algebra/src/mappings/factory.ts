@@ -163,7 +163,7 @@ export function handlePoolCreated(event: PoolEvent): void {
 
 }
 
-export function handleDefaultCommFeeChange(event: DefaultCommunityFee): void{
+export function handleNewCommunityFee(event: DefaultCommunityFee): void{
   let factory = Factory.load(FACTORY_ADDRESS)
   if (factory == null) {
     factory = new Factory(FACTORY_ADDRESS)
