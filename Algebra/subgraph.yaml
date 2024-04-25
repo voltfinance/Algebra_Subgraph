@@ -1,18 +1,18 @@
-specVersion: 0.0.2
+specVersion: 0.0.4
 description: Algebra is a decentralized protocol for automated token exchange on Polygon.
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Factory
-    network: matic
+    network: goerli
     source:
-      address: '0x9742E5C4452ccA62ce115d302756e9150CbA36Aa'
+      address: '0x13fcE0acbe6Fb11641ab753212550574CaD31415'
       abi: Factory
-      startBlock: 31656556 
+      startBlock: 9705888 
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/factory.ts
       entities:
@@ -32,16 +32,18 @@ dataSources:
       eventHandlers:
         - event: Pool(indexed address,indexed address,address)
           handler: handlePoolCreated
+        - event: DefaultCommunityFee(uint16)
+          handler: handleNewCommunityFee
   - kind: ethereum/contract
     name: NonfungiblePositionManager
-    network: matic
+    network: goerli
     source:
-      address: '0x5c43b3C6d5b7dF8A672db8DD66d0b5D74BAf099F'
+      address: '0xAbAc6f23fdf1313FC2E9C9244f666157CcD32990'
       abi: NonfungiblePositionManager
-      startBlock: 31656556 
+      startBlock: 9705888 
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/position-manager.ts
       entities:
@@ -69,12 +71,12 @@ dataSources:
 templates:
   - kind: ethereum/contract
     name: Pool
-    network: matic
+    network: goerli
     source:
       abi: Pool
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       file: ./src/mappings/core.ts
       entities:
@@ -100,5 +102,7 @@ templates:
           handler: handleChangeFee
         - event: Collect(indexed address,address,indexed int24,indexed int24,uint128,uint128)
           handler: handleCollect
-        - event: CommunityFee(uint8,uint8)
+        - event: CommunityFee(uint16)
           handler: handleSetCommunityFee
+        - event: TickSpacing(int24)
+          handler: handleSetTickSpacing

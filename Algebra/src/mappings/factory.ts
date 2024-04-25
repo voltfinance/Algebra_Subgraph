@@ -3,6 +3,7 @@ import { WHITELIST_TOKENS } from './../utils/pricing'
 import { FACTORY_ADDRESS, ZERO_BI, ONE_BI, ZERO_BD, ADDRESS_ZERO, pools_list} from './../utils/constants'
 import { Factory } from '../types/schema'
 import { Pool as PoolEvent } from '../types/Factory/Factory'
+import { DefaultCommunityFee } from '../types/Factory/Factory'
 import { Pool, Token, Bundle } from '../types/schema'
 import { Pool as PoolTemplate} from '../types/templates'
 import { fetchTokenSymbol, fetchTokenName, fetchTokenTotalSupply, fetchTokenDecimals } from '../utils/token'
@@ -21,6 +22,7 @@ export function handlePoolCreated(event: PoolEvent): void {
     factory.untrackedVolumeUSD = ZERO_BD
     factory.totalFeesUSD = ZERO_BD
     factory.totalFeesMatic = ZERO_BD
+    factory.defaultCommunityFee = ZERO_BI
     factory.totalValueLockedMatic = ZERO_BD
     factory.totalValueLockedUSD = ZERO_BD
     factory.totalValueLockedUSDUntracked = ZERO_BD
@@ -123,13 +125,14 @@ export function handlePoolCreated(event: PoolEvent): void {
   pool.createdAtTimestamp = event.block.timestamp
   pool.createdAtBlockNumber = event.block.number
   pool.liquidityProviderCount = ZERO_BI
+  pool.tickSpacing = BigInt.fromI32(60)
+  pool.tick = ZERO_BI
   pool.txCount = ZERO_BI
   pool.liquidity = ZERO_BI
   pool.sqrtPrice = ZERO_BI
   pool.feeGrowthGlobal0X128 = ZERO_BI
   pool.feeGrowthGlobal1X128 = ZERO_BI
-  pool.communityFee0 = ZERO_BI
-  pool.communityFee1 = ZERO_BI
+  pool.communityFee = factory.defaultCommunityFee
   pool.token0Price = ZERO_BD
   pool.token1Price = ZERO_BD
   pool.observationIndex = ZERO_BI
@@ -145,6 +148,7 @@ export function handlePoolCreated(event: PoolEvent): void {
   pool.feesToken0 = ZERO_BD
   pool.feesToken1 = ZERO_BD
   pool.untrackedVolumeUSD = ZERO_BD
+  pool.untrackedFeesUSD = ZERO_BD
 
   pool.collectedFeesToken0 = ZERO_BD
   pool.collectedFeesToken1 = ZERO_BD
@@ -157,4 +161,30 @@ export function handlePoolCreated(event: PoolEvent): void {
   token1.save()
   factory.save()
 
+}
+
+export function handleNewCommunityFee(event: DefaultCommunityFee): void{
+  let factory = Factory.load(FACTORY_ADDRESS)
+  if (factory == null) {
+    factory = new Factory(FACTORY_ADDRESS)
+    factory.poolCount = ZERO_BI
+    factory.totalVolumeMatic = ZERO_BD
+    factory.totalVolumeUSD = ZERO_BD
+    factory.untrackedVolumeUSD = ZERO_BD
+    factory.totalFeesUSD = ZERO_BD
+    factory.totalFeesMatic = ZERO_BD
+    factory.totalValueLockedMatic = ZERO_BD
+    factory.totalValueLockedUSD = ZERO_BD
+    factory.totalValueLockedUSDUntracked = ZERO_BD
+    factory.totalValueLockedMaticUntracked = ZERO_BD
+    factory.txCount = ZERO_BI
+    factory.owner = ADDRESS_ZERO
+
+    // create new bundle for tracking matic price
+    let bundle = new Bundle('1')
+    bundle.maticPriceUSD = ZERO_BD
+    bundle.save()
+  }
+  factory.defaultCommunityFee = BigInt.fromI32(event.params.newDefaultCommunityFee as i32)
+  factory.save()
 }

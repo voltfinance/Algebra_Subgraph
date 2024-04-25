@@ -17,6 +17,8 @@ type Factory @entity {
   untrackedVolumeUSD: BigDecimal!
   # TVL derived in USD
   totalValueLockedUSD: BigDecimal!
+  #
+  defaultCommunityFee: BigInt!
   # TVL derived in Matic
   totalValueLockedMatic: BigDecimal!
   # TVL derived in USD untracked
@@ -84,8 +86,7 @@ type Pool @entity {
   token1: Token!
   # fee amount
   fee: BigInt!
-  communityFee0: BigInt!
-  communityFee1: BigInt!
+  communityFee: BigInt!
   # in range liquidity
   liquidity: BigInt!
   # current price tracker
@@ -112,6 +113,8 @@ type Pool @entity {
   untrackedVolumeUSD: BigDecimal!
   # fees in USD
   feesUSD: BigDecimal!
+  # tick spacing
+  tickSpacing: BigInt!
   #
   untrackedFeesUSD: BigDecimal!
   # all time number of transactions
@@ -192,6 +195,15 @@ type Tick @entity {
   # vars needed for fee computation
   feeGrowthOutside0X128: BigInt!
   feeGrowthOutside1X128: BigInt!
+}
+
+type PoolPosition @entity {
+  id: ID!
+  pool: Pool!
+  lowerTick: Tick!
+  upperTick: Tick!
+  owner: Bytes!
+  liquidity: BigInt!
 }
 
 type Position @entity {

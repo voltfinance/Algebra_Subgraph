@@ -6,8 +6,6 @@ import {
 } from '../types/NonfungiblePositionManager/NonfungiblePositionManager'
 import {  Deposit } from '../types/schema'
 import { BigInt, Address } from '@graphprotocol/graph-ts'
-import { FarmingCenterAddress } from '../utils/constants'
-
 
 export function handleIncreaseLiquidity(event: IncreaseLiquidity): void {
   let entity = Deposit.load(event.params.tokenId.toString());
@@ -16,7 +14,6 @@ export function handleIncreaseLiquidity(event: IncreaseLiquidity): void {
     entity = new Deposit(event.params.tokenId.toString());
     entity.owner = event.transaction.from;
     entity.pool = event.params.pool;
-    entity.onFarmingCenter = false;
     entity.liquidity = BigInt.fromString("0")
     entity.rangeLength = getRangeLength(event.params.tokenId, event.address)
   }
@@ -41,15 +38,6 @@ export function handleTransfer(event: Transfer): void {
   
   if (entity != null) {
     entity.owner = event.params.to;
-  
-    if (event.params.to == FarmingCenterAddress){
-      entity.onFarmingCenter = true
-      entity.owner = event.params.from;
-    }
-
-    if (event.params.from == FarmingCenterAddress){
-      entity.onFarmingCenter = false
-    }
     entity.save(); 
   }
  
