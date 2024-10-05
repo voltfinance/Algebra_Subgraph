@@ -198,7 +198,7 @@ export function handleBurn(event: BurnEvent): void {
   let bundle = Bundle.load('1')!
   let poolAddress = event.address.toHexString()
   let pool = Pool.load(poolAddress)!
-  let plugin = Plugin.load(pool.plugin.toHexString())!
+  let plugin = Plugin.load(pool.plugin.toHexString())
   let factory = Factory.load(FACTORY_ADDRESS)!
 
   let token0 = Token.load(pool.token0)!
@@ -218,12 +218,14 @@ export function handleBurn(event: BurnEvent): void {
     .times(token0.derivedMatic.times(bundle.maticPriceUSD))
     .plus(amount1.times(token1.derivedMatic.times(bundle.maticPriceUSD)))
 
-  let pluginFee = BigInt.fromI32(event.params.pluginFee).toBigDecimal()
-  plugin.collectedFeesToken0 += amount0.times(pluginFee).div(FEE_DENOMINATOR)
-  plugin.collectedFeesToken1 += amount1.times(pluginFee).div(FEE_DENOMINATOR)
-  plugin.collectedFeesUSD += amountUSD.times(pluginFee).div(FEE_DENOMINATOR)
+  if (plugin != null) {
+    let pluginFee = BigInt.fromI32(event.params.pluginFee).toBigDecimal()
+    plugin.collectedFeesToken0 += amount0.times(pluginFee).div(FEE_DENOMINATOR)
+    plugin.collectedFeesToken1 += amount1.times(pluginFee).div(FEE_DENOMINATOR)
+    plugin.collectedFeesUSD += amountUSD.times(pluginFee).div(FEE_DENOMINATOR)
 
-  plugin.save()
+    plugin.save()
+  }
 
   // reset tvl aggregates until new amounts calculated
   factory.totalValueLockedMatic = factory.totalValueLockedMatic.minus(pool.totalValueLockedMatic)
@@ -450,16 +452,18 @@ export function handleSwap(event: SwapEvent): void {
     pool.token1Price = prices[0]
   }
 
-  let plugin = Plugin.load(pool.plugin.toHexString())!
+  let plugin = Plugin.load(pool.plugin.toHexString())
 
-  if(amount0.lt(ZERO_BD)) {
-    plugin.collectedFeesToken1 += amount1.times(pluginFee.toBigDecimal()).div(FEE_DENOMINATOR)
-  } else {
-    plugin.collectedFeesToken0 += amount0.times(pluginFee.toBigDecimal()).div(FEE_DENOMINATOR)
+  if (plugin != null) {
+    if(amount0.lt(ZERO_BD)) {
+      plugin.collectedFeesToken1 += amount1.times(pluginFee.toBigDecimal()).div(FEE_DENOMINATOR)
+    } else {
+      plugin.collectedFeesToken0 += amount0.times(pluginFee.toBigDecimal()).div(FEE_DENOMINATOR)
+    }
+
+    plugin.collectedFeesUSD += amountTotalUSDTracked.times(pluginFee.toBigDecimal()).div(FEE_DENOMINATOR)
+    plugin.save()
   }
-
-  plugin.collectedFeesUSD += amountTotalUSDTracked.times(pluginFee.toBigDecimal()).div(FEE_DENOMINATOR)
-  plugin.save()
 
   pool.save()
 
