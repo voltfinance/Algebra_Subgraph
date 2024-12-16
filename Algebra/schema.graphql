@@ -207,6 +207,7 @@ type PoolPosition @entity {
   upperTick: Tick!
   owner: Bytes!
   liquidity: BigInt!
+  timestamp: BigInt!
 }
 
 type Position @entity {
