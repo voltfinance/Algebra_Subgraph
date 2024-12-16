@@ -250,6 +250,8 @@ type Position @entity {
   feeGrowthInside0LastX128: BigInt!
   feeGrowthInside1LastX128: BigInt!
 
+  timestamp: BigInt!
+
   token0Tvl : BigDecimal
   token1Tvl : BigDecimal 
 }
