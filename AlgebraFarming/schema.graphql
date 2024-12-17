@@ -1,5 +1,5 @@
 type EternalFarming @entity {
-  id: ID!
+  id: Bytes!
   rewardToken: Bytes!
   bonusRewardToken: Bytes!
   virtualPool: Bytes!
@@ -14,7 +14,7 @@ type EternalFarming @entity {
 }
 
 type Deposit @entity {
-  id: ID!
+  id: Bytes!
   owner: Bytes!
   pool: Bytes!
   eternalFarming: Bytes 
@@ -22,15 +22,15 @@ type Deposit @entity {
   rangeLength: BigInt!
 }
 
-type Reward @entity{
-  id: ID!
+type Reward @entity {
+  id: Bytes!
   rewardAddress: Bytes!
   amount: BigInt!
   owner: Bytes!
 }
 
-type Token @entity{
-  id: ID!
+type Token @entity {
+  id: Bytes!
   # token symbol
   symbol: String!
   # token name

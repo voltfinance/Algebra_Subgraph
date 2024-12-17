@@ -25,7 +25,7 @@ export function fetchTokenSymbol(tokenAddress: Address): string {
       } else {
         // try with the static definition
         let staticTokenDefinition = StaticTokenDefinition.fromAddress(tokenAddress)
-        if(staticTokenDefinition != null) {
+        if (staticTokenDefinition != null) {
           symbolValue = staticTokenDefinition.symbol
         }
       }
@@ -53,7 +53,7 @@ export function fetchTokenName(tokenAddress: Address): string {
       } else {
         // try with the static definition
         let staticTokenDefinition = StaticTokenDefinition.fromAddress(tokenAddress)
-        if(staticTokenDefinition != null) {
+        if (staticTokenDefinition != null) {
           nameValue = staticTokenDefinition.name
         }
       }
@@ -75,7 +75,7 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   } else {
     // try with the static definition
     let staticTokenDefinition = StaticTokenDefinition.fromAddress(tokenAddress)
-    if(staticTokenDefinition != null) {
+    if (staticTokenDefinition != null) {
       return staticTokenDefinition.decimals
     }
   }
@@ -83,12 +83,12 @@ export function fetchTokenDecimals(tokenAddress: Address): BigInt {
   return decimalValue
 }
 
-export function createTokenEntity(tokenAddress: Address): void{
+export function createTokenEntity(tokenAddress: Address): void {
 
-  let token = Token.load(tokenAddress.toHexString())
+  let token = Token.load(tokenAddress)
 
-  if(token == null){
-    token = new Token(tokenAddress.toHexString())
+  if (token == null) {
+    token = new Token(tokenAddress)
     token.name = fetchTokenName(tokenAddress)
     token.decimals = fetchTokenDecimals(tokenAddress)
     token.symbol = fetchTokenSymbol(tokenAddress)

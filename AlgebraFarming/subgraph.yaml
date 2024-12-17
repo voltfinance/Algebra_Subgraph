@@ -1,18 +1,20 @@
-specVersion: 0.0.4
+specVersion: 1.2.0
 description: Algebra is a Innovative DEX with concentrated liquidity, adaptive fee, build-in farming etc.
 schema:
   file: ./schema.graphql
+indexerHints:
+  prune: auto
 dataSources:
-- kind: ethereum/contract
-  name: NonfungiblePositionManager
-  network: fuse
-  source:
-      address: '0x52B649B1cE77B349C53Bf0284ba61FD8975e7798'
+  - kind: ethereum/contract
+    name: NonfungiblePositionManager
+    network: fuse
+    source:
+      address: "0x52B649B1cE77B349C53Bf0284ba61FD8975e7798"
       abi: NonfungiblePositionManager
       startBlock: 32498147
-  mapping:
+    mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       file: ./src/mappings/position-manager.ts
       entities:
@@ -34,16 +36,16 @@ dataSources:
           handler: handleTransfer
         - event: DecreaseLiquidity(indexed uint256,uint128,uint256,uint256)
           handler: handleDecreaseLiquidity
-- kind: ethereum/contract
-  name: EternalFarming
-  network: fuse
-  source:
-      address: '0x98cD3eE6a8B07a7bcD4BEc37B724afAb7dbFd4F4'
+  - kind: ethereum/contract
+    name: EternalFarming
+    network: fuse
+    source:
+      address: "0x98cD3eE6a8B07a7bcD4BEc37B724afAb7dbFd4F4"
       abi: EternalFarming
       startBlock: 32498147
-  mapping:
+    mapping:
       kind: ethereum/events
-      apiVersion: 0.0.6
+      apiVersion: 0.0.7
       language: wasm/assemblyscript
       file: ./src/mappings/eternalFarming.ts
       entities:
