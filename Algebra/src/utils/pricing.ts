@@ -7,7 +7,11 @@ import { exponentToBigDecimal, safeDiv } from '../utils/index'
 const WFUSE_ADDRESS = '0x0BE9e53fd7EDaC9F859882AfdDa116645287C629'
 const VOLT_ADDRESS = '0x34Ef2Cc892a88415e9f02b91BfA9c91fC0bE6bD4'
 const USDC_ADDRESS = '0x620fd5fa44be6af63715ef4e65ddfa0387ad13f5'
+
+const BNB_V2_ADDRESS = '0x117c0419352ddb6fe575a67faa70315bdc4a93f3';
+const DAI_V2_ADDRESS = '0x2502f488d481df4f5054330c71b95d93d41625c2';
 const USDT_V2_ADDRESS = '0x68c9736781e9316ebf5c3d49fe0c1f45d2d104cd'
+
 const USDT_STARGATE_ADDRESS = '0x3695dd1d1d43b794c0b13eb8be8419eb3ac22bf7'
 const USDC_STARGATE_ADDRESS  = '0xc6bc407706b7140ee8eef2f86f9504651b63e7f9'
 const WETH_STARGATE_ADDRESS = '0x2f6f07cdcf3588944bf4c42ac74ff24bf56e7590'
@@ -20,6 +24,8 @@ export let WHITELIST_TOKENS: string[] = [
   WFUSE_ADDRESS.toLowerCase(),
   VOLT_ADDRESS.toLowerCase(),
   USDC_ADDRESS.toLowerCase(), 
+  BNB_V2_ADDRESS.toLowerCase(),
+  DAI_V2_ADDRESS.toLowerCase(),
   USDT_V2_ADDRESS.toLowerCase(),
   USDT_STARGATE_ADDRESS.toLowerCase(),
   USDC_STARGATE_ADDRESS.toLowerCase(),
@@ -32,6 +38,7 @@ let Q192 = Math.pow(2, 192)
 
 let STABLE_COINS: string[] = [
   USDC_ADDRESS.toLowerCase(), 
+  DAI_V2_ADDRESS.toLowerCase(),
   USDT_V2_ADDRESS.toLowerCase(),
   USDT_STARGATE_ADDRESS.toLowerCase(),
   USDC_STARGATE_ADDRESS.toLowerCase()
