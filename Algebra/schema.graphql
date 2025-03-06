@@ -142,6 +142,7 @@ type Pool @entity {
   totalValueLockedUSDUntracked: BigDecimal!
   # Fields used to help derived relationship
   liquidityProviderCount: BigInt! # used to detect new exchanges
+  liquidityProviders: [LiquidityProvider!]! @derivedFrom(field: "pool")
   # hourly snapshots of pool data
   poolHourData: [PoolHourData!]! @derivedFrom(field: "pool")
   # daily snapshots of pool data
@@ -152,6 +153,12 @@ type Pool @entity {
   swaps: [Swap!]! @derivedFrom(field: "pool")
   collects: [Collect!]! @derivedFrom(field: "pool")
   ticks: [Tick!]! @derivedFrom(field: "pool")
+}
+
+type LiquidityProvider @entity {
+  id: ID!
+  pool: Pool!
+  positionCount: BigInt!
 }
 
 type Tick @entity {

@@ -1,5 +1,5 @@
 /* eslint-disable prefer-const */
-import { Bundle, Burn, Factory, Mint, Pool, Swap, Tick, PoolPosition, Plugin, Token, PoolFeeData } from '../types/schema'
+import { Bundle, Burn, Factory, Mint, Pool, Swap, Tick, PoolPosition, Plugin, Token, PoolFeeData, LiquidityProvider } from '../types/schema'
 import { PluginConfig, Pool as PoolABI } from '../types/Factory/Pool'
 import { BigDecimal, BigInt, ethereum } from '@graphprotocol/graph-ts'
 
@@ -82,6 +82,19 @@ export function handleMint(event: MintEvent): void {
   // update globals
   factory.txCount = factory.txCount.plus(ONE_BI)
 
+  // update liquidityProviders
+  let liquidityProvider = LiquidityProvider.load(event.transaction.from.toHexString() + '#' + poolAddress)
+  if (liquidityProvider === null) {
+    liquidityProvider = new LiquidityProvider(event.transaction.from.toHexString() + '#' + poolAddress)
+    liquidityProvider.pool = pool.id
+    liquidityProvider.positionCount = ZERO_BI
+  }
+  if (liquidityProvider.positionCount.equals(ZERO_BI)) {
+    pool.liquidityProviderCount = pool.liquidityProviderCount.plus(ONE_BI)
+  }
+  liquidityProvider.positionCount = liquidityProvider.positionCount.plus(ONE_BI)
+  liquidityProvider.save()
+
   // update token0 data
   token0.txCount = token0.txCount.plus(ONE_BI)
   token0.totalValueLocked = token0.totalValueLocked.plus(amount0)
@@ -149,7 +162,9 @@ export function handleMint(event: MintEvent): void {
   if (upperTick === null) {
     upperTick = createTick(upperTickId, upperTickIdx, pool.id, event)
   }
-
+  if (lowerTick === null || upperTick === null) {
+    return
+  }
   let amount = event.params.liquidityAmount
   lowerTick.liquidityGross = lowerTick.liquidityGross.plus(amount)
   lowerTick.liquidityNet = lowerTick.liquidityNet.plus(amount)
@@ -233,6 +248,17 @@ export function handleBurn(event: BurnEvent): void {
 
   // update globals
   factory.txCount = factory.txCount.plus(ONE_BI)
+
+  // update liquidityProviders
+  let liquidityProvider = LiquidityProvider.load(event.transaction.from.toHexString() + '#' + poolAddress)
+  if (liquidityProvider) {
+    liquidityProvider.positionCount = liquidityProvider.positionCount.minus(ONE_BI)
+    liquidityProvider.save()
+    if (liquidityProvider.positionCount.le(ZERO_BI)) {
+      liquidityProvider.positionCount = ZERO_BI
+      pool.liquidityProviderCount = pool.liquidityProviderCount.minus(ONE_BI)
+    }
+  }
 
   // update token0 data
   token0.txCount = token0.txCount.plus(ONE_BI)
